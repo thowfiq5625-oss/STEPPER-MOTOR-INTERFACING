@@ -49,28 +49,28 @@ For running the stepper motor in clockwise and anticlockwise directions:
 
 ```asm
 ; Stepper Motor Interfacing Program in 8086 Assembly
+ START:    MOV DI, 1200H        ; Initialize memory location to store array
+           MOV CX, 0004H        ; Initialize array size
 
-START:   MOV DI, 1200H        ; Initialize memory location to store array
-         MOV CX, 0004H        ; Initialize array size
+ DOWN1:    MOV AL, [DI]         ; Copy the first data into AL
+           OUT C0, AL           ; Send it through port address
 
-DOWN1:   MOV AL, [DI]         ; Copy the first data into AL
-         OUT C0, AL           ; Send it through port address
+           MOV DX, 1010H        ; Delay subroutine
+L1:        DEC DX
+           JNZ L1
 
-         MOV DX, 1010H        ; Delay subroutine
-L1:      DEC DX
-         JNZ L1
+           INC DI               ; Go to next memory location
+           LOOP DOWN1           ; Repeat until all data is sent
 
-         INC DI               ; Go to next memory location
-         LOOP DOWN1           ; Repeat until all data is sent
+           JMP START            ; Continuous rotation
 
-         JMP START            ; Continuous rotation
+           HLT                  ; Stop
 
-         HLT                  ; Stop
-
-DATA:    DB 09H, 05H, 06H, 0AH ; Array of data
+DATA:      DB 09H, 05H, 06H, 0AH ; Array of data (Clockwise)
+            OAH, 06H, 05H, 09H   ; Array of data (Anti-clockwise)
 ```
 ## OUTPUT OF THE PROGRAM:
+<img width="1172" height="877" alt="image" src="https://github.com/user-attachments/assets/a46f5a0a-f1d6-4022-a7bb-afdf42f10210" />
 
 ## RESULT
-
 Thus, the assembly language program for rotating the stepper motor in both clockwise and anticlockwise directions was written and verified.
